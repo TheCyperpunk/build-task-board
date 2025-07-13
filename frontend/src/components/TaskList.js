@@ -6,10 +6,10 @@ import { ListTodo } from 'lucide-react';
 const TaskList = ({ tasks, loading, onToggleComplete, onEditTask, onDeleteTask }) => {
   if (loading) {
     return (
-      <div className="bg-white rounded-xl p-8 shadow-sm border border-gray-200">
-        <div className="flex items-center justify-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-500"></div>
-          <span className="ml-3 text-gray-600">Loading tasks...</span>
+      <div className="glass-card p-8 rounded-2xl">
+        <div className="flex items-center justify-center space-x-3">
+          <div className="animate-spin rounded-full h-8 w-8 border-2 border-primary border-t-transparent"></div>
+          <span className="text-muted-foreground font-medium">Loading tasks...</span>
         </div>
       </div>
     );
@@ -17,17 +17,29 @@ const TaskList = ({ tasks, loading, onToggleComplete, onEditTask, onDeleteTask }
 
   if (tasks.length === 0) {
     return (
-      <div className="bg-white rounded-xl p-12 shadow-sm border border-gray-200 text-center">
-        <ListTodo className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-        <h3 className="text-lg font-semibold text-gray-900 mb-2">
-          No tasks found
-        </h3>
-        <p className="text-gray-600 mb-6">
-          Get started by creating your first task!
-        </p>
-        <div className="text-sm text-gray-500">
-          <p>💡 <strong>Tip:</strong> Use categories to organize your tasks</p>
-          <p>🎯 <strong>Tip:</strong> Set priorities to focus on what matters most</p>
+      <div className="glass-card p-12 rounded-2xl text-center">
+        <div className="max-w-md mx-auto">
+          <div className="w-24 h-24 mx-auto mb-6 bg-gradient-primary rounded-full flex items-center justify-center">
+            <ListTodo className="w-12 h-12 text-white" />
+          </div>
+          <h3 className="text-xl font-semibold text-foreground mb-3">
+            No tasks found
+          </h3>
+          <p className="text-muted-foreground mb-8 leading-relaxed">
+            Get started by creating your first task! Click the + button to begin organizing your day.
+          </p>
+          <div className="space-y-3 text-sm text-muted-foreground bg-muted/30 p-4 rounded-xl">
+            <p className="flex items-center justify-center space-x-2">
+              <span>💡</span>
+              <strong>Tip:</strong>
+              <span>Use categories to organize your tasks</span>
+            </p>
+            <p className="flex items-center justify-center space-x-2">
+              <span>🎯</span>
+              <strong>Tip:</strong>
+              <span>Set priorities to focus on what matters most</span>
+            </p>
+          </div>
         </div>
       </div>
     );
@@ -37,52 +49,64 @@ const TaskList = ({ tasks, loading, onToggleComplete, onEditTask, onDeleteTask }
   const completedTasks = tasks.filter(task => task.completed);
 
   return (
-    <div className="space-y-6">
-      {/* Pending Tasks */}
+    <div className="space-y-8">
+      {/* Pending Tasks with enhanced header */}
       {pendingTasks.length > 0 && (
         <div>
-          <div className="flex items-center space-x-2 mb-4">
-            <h2 className="text-lg font-semibold text-gray-900">
+          <div className="flex items-center space-x-3 mb-6">
+            <div className="w-1 h-6 bg-gradient-to-b from-orange-400 to-orange-600 rounded-full"></div>
+            <h2 className="text-xl font-semibold text-foreground">
               Pending Tasks
             </h2>
-            <span className="bg-orange-100 text-orange-800 text-xs font-medium px-2.5 py-0.5 rounded-full">
-              {pendingTasks.length}
+            <span className="bg-orange-100 dark:bg-orange-950 text-orange-700 dark:text-orange-300 text-xs font-medium px-3 py-1 rounded-full border border-orange-200 dark:border-orange-800">
+              {pendingTasks.length} tasks
             </span>
           </div>
           <div className="grid gap-4">
-            {pendingTasks.map(task => (
-              <TaskCard
+            {pendingTasks.map((task, index) => (
+              <div 
                 key={task._id}
-                task={task}
-                onToggleComplete={onToggleComplete}
-                onEdit={onEditTask}
-                onDelete={onDeleteTask}
-              />
+                className="animate-fadeInUp"
+                style={{ animationDelay: `${index * 0.05}s` }}
+              >
+                <TaskCard
+                  task={task}
+                  onToggleComplete={onToggleComplete}
+                  onEdit={onEditTask}
+                  onDelete={onDeleteTask}
+                />
+              </div>
             ))}
           </div>
         </div>
       )}
 
-      {/* Completed Tasks */}
+      {/* Completed Tasks with enhanced header */}
       {completedTasks.length > 0 && (
         <div>
-          <div className="flex items-center space-x-2 mb-4">
-            <h2 className="text-lg font-semibold text-gray-900">
+          <div className="flex items-center space-x-3 mb-6">
+            <div className="w-1 h-6 bg-gradient-to-b from-green-400 to-green-600 rounded-full"></div>
+            <h2 className="text-xl font-semibold text-foreground">
               Completed Tasks
             </h2>
-            <span className="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full">
-              {completedTasks.length}
+            <span className="bg-green-100 dark:bg-green-950 text-green-700 dark:text-green-300 text-xs font-medium px-3 py-1 rounded-full border border-green-200 dark:border-green-800">
+              {completedTasks.length} completed
             </span>
           </div>
           <div className="grid gap-4">
-            {completedTasks.map(task => (
-              <TaskCard
+            {completedTasks.map((task, index) => (
+              <div 
                 key={task._id}
-                task={task}
-                onToggleComplete={onToggleComplete}
-                onEdit={onEditTask}
-                onDelete={onDeleteTask}
-              />
+                className="animate-fadeInUp"
+                style={{ animationDelay: `${index * 0.05}s` }}
+              >
+                <TaskCard
+                  task={task}
+                  onToggleComplete={onToggleComplete}
+                  onEdit={onEditTask}
+                  onDelete={onDeleteTask}
+                />
+              </div>
             ))}
           </div>
         </div>

@@ -55,17 +55,22 @@ const TaskCard = ({ task, onToggleComplete, onEdit, onDelete }) => {
     new Date(dueDate) <= new Date(Date.now() + 24 * 60 * 60 * 1000); // Due within 24 hours
 
   return (
-    <div className={`bg-white rounded-xl p-6 shadow-sm border transition-all duration-200 hover:shadow-md ${
-      completed ? 'border-green-200 bg-green-50/30' : 'border-gray-200'
-    }`}>
+    <div 
+      className={`glass-card p-6 rounded-2xl shadow-md transition-all duration-300 hover:shadow-xl hover:-translate-y-1 task-card ${
+        completed 
+          ? 'bg-green-50/50 dark:bg-green-950/20 border-green-200/50 dark:border-green-800/50' 
+          : 'hover:bg-accent/20'
+      }`}
+      data-task-id={_id}
+    >
       <div className="flex items-start space-x-4">
-        {/* Completion Toggle */}
+        {/* Enhanced Completion Toggle */}
         <button
           onClick={() => onToggleComplete(_id, !completed)}
-          className={`flex-shrink-0 mt-1 transition-colors duration-200 ${
+          className={`flex-shrink-0 mt-1 p-1 rounded-full transition-all duration-300 hover:scale-110 ${
             completed 
-              ? 'text-green-600 hover:text-green-700' 
-              : 'text-gray-400 hover:text-gray-600'
+              ? 'text-green-500 bg-green-100 dark:bg-green-900 hover:bg-green-200 dark:hover:bg-green-800' 
+              : 'text-muted-foreground hover:text-primary hover:bg-primary/10'
           }`}
         >
           {completed ? (
@@ -75,48 +80,48 @@ const TaskCard = ({ task, onToggleComplete, onEdit, onDelete }) => {
           )}
         </button>
 
-        {/* Task Content */}
+        {/* Enhanced Task Content */}
         <div className="flex-1 min-w-0">
-          {/* Task Title */}
-          <h3 className={`text-lg font-semibold transition-colors duration-200 ${
+          {/* Task Title with better typography */}
+          <h3 className={`text-lg font-semibold transition-all duration-300 ${
             completed 
-              ? 'text-gray-500 line-through' 
-              : 'text-gray-900'
+              ? 'text-muted-foreground line-through' 
+              : 'text-foreground'
           }`}>
             {title}
           </h3>
 
           {/* Task Description */}
           {description && (
-            <p className={`mt-2 text-sm ${
-              completed ? 'text-gray-400' : 'text-gray-600'
+            <p className={`mt-2 text-sm leading-relaxed ${
+              completed ? 'text-muted-foreground/70' : 'text-muted-foreground'
             }`}>
               {description}
             </p>
           )}
 
-          {/* Task Meta Information */}
-          <div className="flex flex-wrap items-center gap-3 mt-4">
-            {/* Category */}
-            <div className={`flex items-center space-x-1 px-2 py-1 rounded-full text-xs font-medium ${getCategoryColor(category)}`}>
+          {/* Enhanced Task Meta Information */}
+          <div className="flex flex-wrap items-center gap-2 mt-4">
+            {/* Category with improved styling */}
+            <div className={`flex items-center space-x-1 px-3 py-1 rounded-full text-xs font-medium backdrop-blur-sm ${getCategoryColor(category)}`}>
               <Tag className="w-3 h-3" />
               <span>{category}</span>
             </div>
 
-            {/* Priority */}
-            <div className={`flex items-center space-x-1 px-2 py-1 rounded-full text-xs font-medium border ${getPriorityColor(priority)}`}>
+            {/* Priority with gradient background */}
+            <div className={`flex items-center space-x-1 px-3 py-1 rounded-full text-xs font-medium border backdrop-blur-sm ${getPriorityColor(priority)}`}>
               <AlertCircle className="w-3 h-3" />
               <span>{priority}</span>
             </div>
 
-            {/* Due Date */}
+            {/* Due Date with enhanced styling */}
             {dueDate && (
-              <div className={`flex items-center space-x-1 px-2 py-1 rounded-full text-xs font-medium ${
+              <div className={`flex items-center space-x-1 px-3 py-1 rounded-full text-xs font-medium backdrop-blur-sm ${
                 isOverdue 
-                  ? 'text-red-600 bg-red-50' 
+                  ? 'text-red-600 bg-red-50 dark:bg-red-950 border-red-200 dark:border-red-800' 
                   : isDueSoon 
-                    ? 'text-orange-600 bg-orange-50'
-                    : 'text-gray-600 bg-gray-50'
+                    ? 'text-orange-600 bg-orange-50 dark:bg-orange-950 border-orange-200 dark:border-orange-800'
+                    : 'text-muted-foreground bg-muted/50 border-border'
               }`}>
                 <Calendar className="w-3 h-3" />
                 <span>
@@ -126,25 +131,25 @@ const TaskCard = ({ task, onToggleComplete, onEdit, onDelete }) => {
             )}
 
             {/* Created Date */}
-            <div className="flex items-center space-x-1 text-xs text-gray-500">
+            <div className="flex items-center space-x-1 text-xs text-muted-foreground/70">
               <Clock className="w-3 h-3" />
               <span>Created {formatDate(createdAt)}</span>
             </div>
           </div>
         </div>
 
-        {/* Action Buttons */}
-        <div className="flex items-center space-x-2 flex-shrink-0">
+        {/* Enhanced Action Buttons */}
+        <div className="flex items-center space-x-1 flex-shrink-0">
           <button
             onClick={() => onEdit(task)}
-            className="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors duration-200"
+            className="p-2 text-muted-foreground hover:text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-950 rounded-lg transition-all duration-200 hover:scale-110"
             title="Edit task"
           >
             <Edit2 className="w-4 h-4" />
           </button>
           <button
             onClick={() => onDelete(_id)}
-            className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors duration-200"
+            className="p-2 text-muted-foreground hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950 rounded-lg transition-all duration-200 hover:scale-110"
             title="Delete task"
           >
             <Trash2 className="w-4 h-4" />
@@ -152,10 +157,10 @@ const TaskCard = ({ task, onToggleComplete, onEdit, onDelete }) => {
         </div>
       </div>
 
-      {/* Overdue Warning */}
+      {/* Enhanced Overdue Warning */}
       {isOverdue && (
-        <div className="mt-4 p-3 bg-red-50 border border-red-200 rounded-lg">
-          <div className="flex items-center space-x-2 text-red-800">
+        <div className="mt-4 p-3 bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-800/50 rounded-xl backdrop-blur-sm">
+          <div className="flex items-center space-x-2 text-red-700 dark:text-red-400">
             <AlertCircle className="w-4 h-4" />
             <span className="text-sm font-medium">
               This task is overdue! Consider updating the due date or marking it complete.
